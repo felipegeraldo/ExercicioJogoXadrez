@@ -10,13 +10,24 @@ namespace ChessGame
     {
         static void Main(string[] args)
         {
-            //ChessPosition pos = new ChessPosition('A', 1);
-            //Console.WriteLine(pos);
             try
             {
                 ChessMatch match = new ChessMatch();
 
-                Screen.PrintBoard(match.Board);
+                while (!match.Endgame)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board);
+
+                    Console.WriteLine();
+
+                    Console.Write("Origem: ");
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+                    Console.Write("Destino: ");
+                    Position destination = Screen.ReadChessPosition().ToPosition();
+
+                    match.MovePiece(origin, destination);
+                }
 
                 Console.WriteLine();
             }
