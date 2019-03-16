@@ -44,9 +44,15 @@ namespace ChessGame.Chess
             {
                 Check = false;
             }
-            
-            Turn++;
-            ChangePlayer();
+            if (TestCheckmate(Opponent(CurrentPlayer)))
+            {
+                Endgame = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
 
         public void ValidateOriginPosition(Position origin)
@@ -127,6 +133,37 @@ namespace ChessGame.Chess
             return false;
         }
 
+        public bool TestCheckmate(Color c)
+        {
+            if (!IsCheck(c))
+            {
+                return false;
+            }
+            foreach (Piece p in PiecesInMatch(c))
+            {
+                bool[,] mat = p.PossibleMovements();
+                for (int i = 0; i < Board.Lines; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i,j])
+                        {
+                            Position origin = p.Position;
+                            Position destination = new Position(i, j);
+                            Piece capturetedPiece = MovePiece(origin, destination);
+                            bool testCheck = IsCheck(c);
+                            UndoMove(origin, destination, capturetedPiece);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         private Color Opponent(Color c)
         {
             if (c == Color.White)
@@ -196,18 +233,11 @@ namespace ChessGame.Chess
         private void SetPieces()
         {
             PutNewPiece('c', 1, new Rook(Color.White, Board));
-            PutNewPiece('c', 2, new Rook(Color.White, Board));
-            PutNewPiece('d', 2, new Rook(Color.White, Board));
-            PutNewPiece('e', 2, new Rook(Color.White, Board));
-            PutNewPiece('e', 1, new Rook(Color.White, Board));
             PutNewPiece('d', 1, new King(Color.White, Board));
-
-            PutNewPiece('c', 7, new Rook(Color.Black, Board));
-            PutNewPiece('c', 8, new Rook(Color.Black, Board));
-            PutNewPiece('d', 7, new Rook(Color.Black, Board));
-            PutNewPiece('e', 7, new Rook(Color.Black, Board));
-            PutNewPiece('e', 8, new Rook(Color.Black, Board));
-            PutNewPiece('d', 8, new King(Color.Black, Board));
+            PutNewPiece('h', 7, new Rook(Color.White, Board));
+            
+            PutNewPiece('a', 8, new King(Color.Black, Board));
+            PutNewPiece('b', 8, new Rook(Color.Black, Board));
         }
     }
 }
