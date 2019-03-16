@@ -9,8 +9,8 @@ namespace ChessGame.Chess
     class ChessMatch
     {
         public Board Board { get; private set; }
-        private int Turn;
-        private Color CurrentPlayer;
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool Endgame { get; set; }
 
         public ChessMatch()
@@ -22,7 +22,26 @@ namespace ChessGame.Chess
             SetPieces();
         }
 
-        public void MovePiece(Position origin, Position destination)
+        public void MakeMove(Position origin, Position destination)
+        {
+            MovePiece(origin, destination);
+            Turn++;
+            ChangePlayer();
+        }
+
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
+        }
+
+        private void MovePiece(Position origin, Position destination)
         {
             Piece p = Board.RemovePiece(origin);
             p.IncreaseNumberOfMoviments();
