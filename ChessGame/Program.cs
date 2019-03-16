@@ -1,7 +1,6 @@
 ﻿using System;
-using ChessGame.GameBoard;
-using ChessGame.GameBoard.Enumns;
 using ChessGame.Chess;
+using ChessGame.GameBoard;
 using ChessGame.GameBoard.Exceptions;
 
 namespace ChessGame
@@ -16,27 +15,36 @@ namespace ChessGame
 
                 while (!match.Endgame)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board);
-                    Console.WriteLine();
-                    Console.WriteLine("Turn: " + match.Turn);
-                    Console.WriteLine("Waiting move: " + match.CurrentPlayer);
-               
-                    Console.WriteLine();
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Turn: " + match.Turn);
+                        Console.WriteLine("Waiting move: " + match.CurrentPlayer);
 
-                    Console.Write("Origem: ");
-                    Position origin = Screen.ReadChessPosition().ToPosition();
+                        Console.WriteLine();
 
-                    bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
+                        Console.Write("Origem: ");
+                        Position origin = Screen.ReadChessPosition().ToPosition();
+                        match.ValidateOriginPosition(origin);
 
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board, possiblePositions);
+                        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Position destination = Screen.ReadChessPosition().ToPosition();
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possiblePositions);
 
-                    match.MakeMove(origin, destination);
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Position destination = Screen.ReadChessPosition().ToPosition();
+
+                        match.MakeMove(origin, destination);
+                    }
+                    catch (GameBoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
 
                 Console.WriteLine();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ChessGame.GameBoard;
 using ChessGame.GameBoard.Enumns;
+using ChessGame.GameBoard.Exceptions;
 
 namespace ChessGame.Chess
 {
@@ -27,6 +28,22 @@ namespace ChessGame.Chess
             MovePiece(origin, destination);
             Turn++;
             ChangePlayer();
+        }
+
+        public void ValidateOriginPosition(Position origin)
+        {
+            if (Board.Piece(origin) == null)
+            {
+                throw new GameBoardException("There is no Piece in the chosen origin position!");
+            }
+            if (CurrentPlayer != Board.Piece(origin).Color)
+            {
+                throw new GameBoardException("The chosen origin Piece is not yours!");
+            }
+            if (!Board.Piece(origin).ExistPossibleMovements())
+            {
+                throw new GameBoardException("There are no possible moves for this piece!");
+            }
         }
 
         private void ChangePlayer()
