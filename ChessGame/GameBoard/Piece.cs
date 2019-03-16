@@ -38,6 +38,11 @@ namespace ChessGame.GameBoard
             return false;
         }
 
+        public bool MayMoveTo(Position destination)
+        {
+            return PossibleMovements()[destination.Line, destination.Column];
+        }
+
         public abstract bool[,] PossibleMovements();
     }
 }

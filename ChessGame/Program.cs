@@ -37,6 +37,7 @@ namespace ChessGame
                         Console.WriteLine();
                         Console.Write("Destino: ");
                         Position destination = Screen.ReadChessPosition().ToPosition();
+                        match.ValidadeDestinationPosition(origin, destination);
 
                         match.MakeMove(origin, destination);
                     }
