@@ -47,20 +47,20 @@ namespace ChessGame.GameBoard
             return aux;
         }
 
-        private bool ExistPiece(Position pos)
+        public bool ValidPosition(Position pos)
         {
-            ValidatePosition(pos);
-            return Piece(pos) != null;
-        }
-
-        private bool ValidPosition(Position pos)
-        {
-            if (pos.Line <0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns)
+            if (pos.Line < 0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns)
             {
                 return false;
 
             }
             return true;
+        }
+
+        private bool ExistPiece(Position pos)
+        {
+            ValidatePosition(pos);
+            return Piece(pos) != null;
         }
 
         private void ValidatePosition(Position pos)

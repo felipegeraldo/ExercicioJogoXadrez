@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ChessGame.Chess;
 using ChessGame.GameBoard;
 using ChessGame.GameBoard.Enumns;
@@ -11,26 +9,46 @@ namespace ChessGame
     {
         public static void PrintBoard(Board board)
         {
-            for (int i = 0; i < board.Lines ; i++)
+            for (int i = 0; i < board.Lines; i++)
             {
-                Console.Write(8-i + " ");
+                Console.Write(8 - i + " ");
 
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    if (board.Piece(i, j) == null)
-                    {
-                        Console.Write("- ");
-                    }
-                    else
-                    {
-                        PrintPiece(board.Piece(i, j));
-                        Console.Write(" ");
-                    }
+                    PrintPiece(board.Piece(i, j));
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
         }
+
+        public static void PrintBoard(Board board, bool[,] possiblePositions)
+        {
+            ConsoleColor orinalBackgroud = Console.BackgroundColor;
+            ConsoleColor backgroudChanged = ConsoleColor.DarkGray;
+
+            for (int i = 0; i < board.Lines; i++)
+            {
+                Console.Write(8 - i + " ");
+
+                for (int j = 0; j < board.Columns; j++)
+                {
+                    if (possiblePositions[i,j])
+                    {
+                        Console.BackgroundColor = backgroudChanged;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = orinalBackgroud;
+                    }
+                    PrintPiece(board.Piece(i, j));
+                    Console.BackgroundColor = orinalBackgroud;
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  a b c d e f g h");
+        }
+
 
         public static ChessPosition ReadChessPosition()
         {
@@ -43,16 +61,24 @@ namespace ChessGame
 
         private static void PrintPiece(Piece p)
         {
-            if (p.Color == Color.White) 
+            if (p == null)
             {
-                Console.Write(p);
+                Console.Write("- ");
             }
             else
             {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(p);
-                Console.ForegroundColor = aux;
+                if (p.Color == Color.White)
+                {
+                    Console.Write(p);
+                }
+                else
+                {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(p);
+                    Console.ForegroundColor = aux;
+                }
+                Console.Write(" ");
             }
         }
     }
