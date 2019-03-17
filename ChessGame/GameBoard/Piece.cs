@@ -43,7 +43,7 @@ namespace ChessGame.GameBoard
             return false;
         }
 
-        public bool MayMoveTo(Position destination)
+        public bool PossibleMovement(Position destination)
         {
             return PossibleMovements()[destination.Line, destination.Column];
         }

@@ -73,7 +73,7 @@ namespace ChessGame.Chess
 
         public void ValidadeDestinationPosition(Position origin, Position destination)
         {
-            if (!Board.Piece(origin).MayMoveTo(destination))
+            if (!Board.Piece(origin).PossibleMovement(destination))
             {
                 throw new GameBoardException("Invalid target position!");
             }
