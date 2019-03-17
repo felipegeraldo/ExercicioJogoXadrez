@@ -62,12 +62,5 @@ namespace ChessGame.Chess
                 mat[pos.Line, pos.Column] = true;
             }
         }
-
-        private bool MayMove(Position pos)
-        {
-            Piece p = Board.Piece(pos);
-
-            return p == null || p.Color != Color;
-        }
     }
 }

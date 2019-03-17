@@ -27,6 +27,13 @@ namespace ChessGame.GameBoard
             NumnberOfMovements--;
         }
 
+        public bool MayMove(Position pos)
+        {
+            Piece p = Board.Piece(pos);
+
+            return p == null || p.Color != Color;
+        }
+
         public bool ExistPossibleMovements()
         {
             bool[,] mat = PossibleMovements();

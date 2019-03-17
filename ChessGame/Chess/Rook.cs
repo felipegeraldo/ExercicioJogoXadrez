@@ -66,15 +66,6 @@ namespace ChessGame.Chess
             return mat;
         }
 
-        private bool MayMove(Position pos)
-        {
-            Piece p = Board.Piece(pos);
-
-            return p == null || p.Color != Color;
-        }
-
-
-
         public override string ToString()
         {
             return "R";
