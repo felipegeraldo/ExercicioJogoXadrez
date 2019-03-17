@@ -214,6 +214,26 @@ namespace ChessGame.Chess
                 CapturedPieces.Add(capturedPiece);
             }
 
+            //#SpecialMovement SmallCastle
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position orignRook = new Position(origin.Line, origin.Column + 3);
+                Position destinationRook = new Position(origin.Line, origin.Column + 1);
+                Piece rook = Board.RemovePiece(orignRook);
+                rook.IncreaseNumberOfMoviments();
+                Board.PutPiece(rook, destinationRook);
+            }
+
+            //#SpecialMovement BigCastle
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position orignRook = new Position(origin.Line, origin.Column - 4);
+                Position destinationRook = new Position(origin.Line, origin.Column - 1);
+                Piece rook = Board.RemovePiece(orignRook);
+                rook.IncreaseNumberOfMoviments();
+                Board.PutPiece(rook, destinationRook);
+            }
+
             return capturedPiece;
         }
 
@@ -228,6 +248,26 @@ namespace ChessGame.Chess
                 CapturedPieces.Remove(capturetedPiece);
             }
             Board.PutPiece(p, origin);
+
+            //#SpecialMovement SmallCastle
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position orignRook = new Position(origin.Line, origin.Column + 3);
+                Position destinationRook = new Position(origin.Line, origin.Column + 1);
+                Piece rook = Board.RemovePiece(destination);
+                rook.DecrementNumberOfMoviments();
+                Board.PutPiece(rook, orignRook);
+            }
+
+            //#SpecialMovement BigCastle
+            if (p is King && destination.Column == origin.Column + 3)
+            {
+                Position orignRook = new Position(origin.Line, origin.Column - 4);
+                Position destinationRook = new Position(origin.Line, origin.Column - 1);
+                Piece rook = Board.RemovePiece(destination);
+                rook.DecrementNumberOfMoviments();
+                Board.PutPiece(rook, orignRook);
+            }
         }
 
         private void SetPieces()
@@ -236,7 +276,7 @@ namespace ChessGame.Chess
             PutNewPiece('b', 1, new Knight(Color.White, Board));
             PutNewPiece('c', 1, new Bishop(Color.White, Board));
             PutNewPiece('d', 1, new Queen(Color.White, Board));
-            PutNewPiece('e', 1, new King(Color.White, Board));
+            PutNewPiece('e', 1, new King(Color.White, Board, this));
             PutNewPiece('f', 1, new Bishop(Color.White, Board));
             PutNewPiece('g', 1, new Knight(Color.White, Board));
             PutNewPiece('h', 1, new Rook(Color.White, Board));
@@ -253,7 +293,7 @@ namespace ChessGame.Chess
             PutNewPiece('b', 8, new Knight(Color.Black, Board));
             PutNewPiece('c', 8, new Bishop(Color.Black, Board));
             PutNewPiece('d', 8, new Queen(Color.Black, Board));
-            PutNewPiece('e', 8, new King(Color.Black, Board));
+            PutNewPiece('e', 8, new King(Color.Black, Board, this));
             PutNewPiece('f', 8, new Bishop(Color.Black, Board));
             PutNewPiece('g', 8, new Knight(Color.Black, Board));
             PutNewPiece('h', 8, new Rook(Color.Black, Board));
