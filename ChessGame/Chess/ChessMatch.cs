@@ -225,7 +225,7 @@ namespace ChessGame.Chess
             }
 
             //#SpecialMovement BigCastle
-            if (p is King && destination.Column == origin.Column + 2)
+            if (p is King && destination.Column == origin.Column - 2)
             {
                 Position orignRook = new Position(origin.Line, origin.Column - 4);
                 Position destinationRook = new Position(origin.Line, origin.Column - 1);
@@ -260,7 +260,7 @@ namespace ChessGame.Chess
             }
 
             //#SpecialMovement BigCastle
-            if (p is King && destination.Column == origin.Column + 3)
+            if (p is King && destination.Column == origin.Column - 2)
             {
                 Position orignRook = new Position(origin.Line, origin.Column - 4);
                 Position destinationRook = new Position(origin.Line, origin.Column - 1);
