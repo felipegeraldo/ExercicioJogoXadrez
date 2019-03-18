@@ -23,16 +23,22 @@ namespace ChessGame.Chess
             pos.SetValues(Position.Line - 1, Position.Column - 2);
             SetPosition(ref mat, pos);
 
-            pos.SetValues(Position.Line - 1, Position.Column + 2);
-            SetPosition(ref mat, pos);
-
-            pos.SetValues(Position.Line - 2, Position.Column - 1);
+            pos.SetValues(Position.Line - 2, Position.Column -1);
             SetPosition(ref mat, pos);
 
             pos.SetValues(Position.Line - 2, Position.Column + 1);
             SetPosition(ref mat, pos);
 
+            pos.SetValues(Position.Line - 1, Position.Column + 2);
+            SetPosition(ref mat, pos);
+
             pos.SetValues(Position.Line + 1, Position.Column + 2);
+            SetPosition(ref mat, pos);
+
+            pos.SetValues(Position.Line + 2, Position.Column + 1);
+            SetPosition(ref mat, pos);
+
+            pos.SetValues(Position.Line + 2, Position.Column - 1);
             SetPosition(ref mat, pos);
 
             pos.SetValues(Position.Line + 1, Position.Column - 2);

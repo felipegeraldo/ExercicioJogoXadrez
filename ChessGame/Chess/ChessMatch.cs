@@ -31,13 +31,32 @@ namespace ChessGame.Chess
 
         public void MakeMove(Position origin, Position destination)
         {
-            Piece p = MovePiece(origin, destination);
+            Piece capturetedPiece = MovePiece(origin, destination);
 
             if (IsCheck(CurrentPlayer))
             {
-                UndoMove(origin, destination, p);
+                UndoMove(origin, destination, capturetedPiece);
                 throw new GameBoardException("You can not put yourself in check!");
             }
+
+            Piece movedPiece = Board.Piece(destination);
+
+            //#SpecialMovement Promotion
+            if (movedPiece is Pawn)
+            {
+                if ((movedPiece.Color == Color.White && destination.Line == 0) || (movedPiece.Color == Color.Black && destination.Line == 7))
+                {
+                    movedPiece = Board.RemovePiece(destination);
+                    pieces.Remove(movedPiece);
+                    Piece queen = new Queen(movedPiece.Color, Board);
+                    Board.PutPiece(queen, destination);
+                    pieces.Add(queen);
+
+                }
+            }
+
+
+
             if (IsCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
@@ -219,13 +238,13 @@ namespace ChessGame.Chess
             Piece p = Board.RemovePiece(origin);
             p.IncreaseNumberOfMoviments();
 
-            Piece capturedPiece = Board.RemovePiece(destination);
+            Piece capturetedPiece = Board.RemovePiece(destination);
 
             Board.PutPiece(p, destination);
 
-            if (capturedPiece != null)
+            if (capturetedPiece != null)
             {
-                capturedPieces.Add(capturedPiece);
+                capturedPieces.Add(capturetedPiece);
             }
 
             //#SpecialMovement SmallCastle
@@ -251,7 +270,7 @@ namespace ChessGame.Chess
             //#SpecialMovement EnPassant
             if (p is Pawn)
             {
-                if (origin.Column != destination.Column && capturedPiece == null)
+                if (origin.Column != destination.Column && capturetedPiece == null)
                 {
                     Position pawnPosition;
                     if (p.Color == Color.White)
@@ -262,14 +281,11 @@ namespace ChessGame.Chess
                     {
                         pawnPosition = new Position(destination.Line - 1, destination.Column);
                     }
-                    capturedPiece = Board.RemovePiece(pawnPosition);
-                    capturedPieces.Add(capturedPiece);
+                    capturetedPiece = Board.RemovePiece(pawnPosition);
+                    capturedPieces.Add(capturetedPiece);
                 }
             }
-
-
-
-            return capturedPiece;
+            return capturetedPiece;
         }
 
         private void UndoMove(Position origin, Position destination, Piece capturetedPiece)
